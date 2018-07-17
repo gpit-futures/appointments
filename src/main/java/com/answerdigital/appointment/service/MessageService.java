@@ -33,6 +33,7 @@ public abstract class MessageService<DTO extends ResponseDTO> {
 		
 		properties.setHeader("originOds", details.get("odsId"));
 		properties.setHeader("destinationOds", odsId);
+		properties.setContentType("application/json");
 		
 		Message message = MessageBuilder.withBody(
 				objectMapper.writeValueAsBytes(dto)).andProperties(properties).build();
