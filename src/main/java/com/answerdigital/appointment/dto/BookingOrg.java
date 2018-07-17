@@ -1,7 +1,6 @@
 package com.answerdigital.appointment.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class BookingOrg extends ResponseDTO {
 
@@ -15,7 +14,7 @@ public class BookingOrg extends ResponseDTO {
 		return appointment;
 	}
 
-	public void setAppointment(Appointment Appointment) {
+	public void setAppointment(Appointment appointment) {
 		this.appointment = appointment;
 	}
 

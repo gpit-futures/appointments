@@ -15,8 +15,6 @@ import com.answerdigital.appointment.dto.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
 public abstract class MessageService<DTO extends ResponseDTO> {
 
 	@Autowired
@@ -25,17 +23,19 @@ public abstract class MessageService<DTO extends ResponseDTO> {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	@SuppressWarnings("unchecked")
 	public void publishCreateMessage(DTO dto, String odsId) throws JsonProcessingException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-		Map<String, String> decodedDetails =  (Map<String, String>) details.getDecodedDetails();
-		String originOdsId = decodedDetails.get("odsId");
+		Map<String, String> details =  
+				(Map<String, String>) ((OAuth2AuthenticationDetails) auth.getDetails()).getDecodedDetails();
 		
 		MessageProperties properties = new MessageProperties();
-		properties.setHeader("originOds", originOdsId);
+		
+		properties.setHeader("originOds", details.get("odsId"));
 		properties.setHeader("destinationOds", odsId);
 		
-		Message message = MessageBuilder.withBody(objectMapper.writeValueAsBytes(dto)).andProperties(properties).build();
+		Message message = MessageBuilder.withBody(
+				objectMapper.writeValueAsBytes(dto)).andProperties(properties).build();
 		
 		this.rabbitTemplate.convertAndSend(getExchangeKey(), getCreateKey(), message);
 	}
