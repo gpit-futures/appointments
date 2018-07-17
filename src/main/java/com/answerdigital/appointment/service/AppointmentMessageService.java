@@ -3,8 +3,10 @@ package com.answerdigital.appointment.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.answerdigital.appointment.dto.Appointment;
+
 @Service
-public class AppointmentMessageService extends MessageService{
+public class AppointmentMessageService extends MessageService<Appointment> {
 
 	@Value("${appointment.created.key}")
 	private String createdKey;
