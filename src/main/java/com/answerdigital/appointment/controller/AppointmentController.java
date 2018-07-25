@@ -21,7 +21,6 @@ public class AppointmentController{
 	private AppointmentMessageService messageService;
 	
 	@PostMapping(path="/{odsId}")
-	@PreAuthorize("hasAuthority('FOO_WRITE')")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void create(@PathVariable String odsId, @RequestBody Appointment appointment) throws Exception {
 		messageService.publishCreateMessage(appointment, odsId);
